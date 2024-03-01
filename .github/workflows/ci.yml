@@ -24,5 +24,5 @@ jobs:
         run: make train
       - name: Evaluation
         env:
-          REPO_TOKEN: ${{ secrets.CML_TOKEN }}
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make eval
