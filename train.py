@@ -12,18 +12,18 @@ import pandas as pd
 import skops.io as skio
 
 df = pd.read_csv("./Data/drug.csv").sample(frac=1).reset_index(drop=True)
-X = df.drop(columns="Drug")
-y = df["Drug"]
+X = df.drop(columns="Drug").values
+y = df["Drug"].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-numeric_features = ["Age", "Na_to_K"]
+numeric_features = [0, 4]
 numeric_transformer = Pipeline(
     steps=[
         ("imputer", SimpleImputer(strategy="median")),
         ("scaler", StandardScaler())
     ]
 )
-categorical_features = ["Sex", "BP", "Cholesterol"]
+categorical_features = [1, 2, 3]
 categorical_transformer = Pipeline(
     steps=[
         ("imputer", SimpleImputer(strategy="most_frequent")),
