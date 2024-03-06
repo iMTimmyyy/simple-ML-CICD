@@ -15,29 +15,30 @@ df = pd.read_csv("./Data/drug.csv").sample(frac=1).reset_index(drop=True)
 X = df.drop(columns="Drug").values
 y = df["Drug"].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
 numeric_features = [0, 4]
 numeric_transformer = Pipeline(
-    steps=[
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler", StandardScaler())
-    ]
+    steps=[("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]
 )
 categorical_features = [1, 2, 3]
 categorical_transformer = Pipeline(
     steps=[
         ("imputer", SimpleImputer(strategy="most_frequent")),
-        ("ordinal", OrdinalEncoder())
+        ("ordinal", OrdinalEncoder()),
     ]
 )
 preprocessor = ColumnTransformer(
     transformers=[
         ("num", numeric_transformer, numeric_features),
-        ("cat", categorical_transformer, categorical_features)])
+        ("cat", categorical_transformer, categorical_features),
+    ]
+)
 clf = Pipeline(
     steps=[
         ("preprocessor", preprocessor),
-        ("classifier", RandomForestClassifier(n_estimators=100, random_state=0))
+        ("classifier", RandomForestClassifier(n_estimators=100, random_state=0)),
     ]
 )
 clf.fit(X_train, y_train)
